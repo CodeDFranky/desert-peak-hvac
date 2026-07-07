@@ -13,7 +13,9 @@ export const client: SanityClient | null = enabled
       projectId,
       dataset,
       apiVersion: '2024-10-01',
-      useCdn: true,
+      // Build-time fetch: bypass the CDN cache so each rebuild gets freshly
+      // published content (builds are infrequent, so no rate-limit concern).
+      useCdn: false,
     })
   : null;
 
