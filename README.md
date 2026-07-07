@@ -2,8 +2,8 @@
 
 A responsive marketing homepage for a fictional HVAC company in Henderson, Las Vegas. Built as a trial task. The copy and design system were provided; the job was to bring them to life as a real page that does not look AI-generated, and to make the content editable through a CMS.
 
-- **Live link:** _add your Vercel URL here_
-- **CMS Studio:** `/studio`
+- **Live link:** https://desert-peak-hvac-rouge.vercel.app
+- **CMS Studio:** https://desert-peak-hvac-rouge.vercel.app/studio
 
 ## Why Astro, not Next.js
 
