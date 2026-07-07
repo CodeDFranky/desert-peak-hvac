@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import icon from 'astro-icon';
+import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
 
 const { SANITY_PROJECT_ID, SANITY_DATASET } = loadEnv(
@@ -13,6 +14,7 @@ const { SANITY_PROJECT_ID, SANITY_DATASET } = loadEnv(
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://desert-peak-hvac-rouge.vercel.app',
   output: 'static',
   integrations: [
     sanity({
@@ -24,6 +26,7 @@ export default defineConfig({
     }),
     react(),
     icon(),
+    sitemap({ filter: (page) => !page.includes('/studio') }),
     tailwind({ applyBaseStyles: false }),
   ],
 });

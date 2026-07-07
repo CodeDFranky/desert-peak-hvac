@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /studio
+
+Sitemap: https://desert-peak-hvac-rouge.vercel.app/sitemap-index.xml

@@ -11,6 +11,9 @@ const {
   title = 'Desert Peak Heating & Cooling | Henderson, NV HVAC',
   description = "Henderson's trusted local HVAC company since 2009. Same-day AC repair, installation, and heating service across the Las Vegas Valley.",
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.jpg', Astro.site);
 ---
 
 <!doctype html>
@@ -18,15 +21,38 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#15293D" />
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Desert Peak Heating & Cooling" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     {/* Mark JS as present before paint so reveal-hiding only applies with JS. */}
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
   </head>
   <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-brand-navy focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-white"
+    >
+      Skip to content
+    </a>
     <slot />
 
     <script>
