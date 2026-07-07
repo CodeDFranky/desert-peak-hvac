@@ -95,7 +95,7 @@ const structuredData = {
 ---
 
 <Layout>
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(structuredData)} is:inline />
   <Nav phone={settings.phone} />
   <main id="main-content" tabindex="-1">
     <Hero phone={settings.phone} />

@@ -45,6 +45,7 @@ const ogImage = new URL('/og.jpg', Astro.site);
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
+    <slot name="head" />
   </head>
   <body>
     <a

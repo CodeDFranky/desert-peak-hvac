@@ -1,0 +1,29 @@
+# Desert Peak Heating & Cooling
+
+> Locally owned HVAC company serving Henderson and the greater Las Vegas Valley since 2009. Air conditioning repair, installation, heating, indoor air quality, and commercial HVAC, with same-day service and upfront, honest pricing.
+
+Fully licensed Nevada HVAC contractor (NSCB #0089421) with NATE-certified, background-checked technicians and a 100% satisfaction guarantee. Desert Peak is a fictional company built as a trial project.
+
+## Contact
+
+- Phone: (555) 555-0182
+- Email: service@desertpeakhvac.com
+- Address: 1480 W Sunset Rd, Suite 120, Henderson, NV 89014
+- Hours: Monday to Friday 7am to 7pm; Saturday 8am to 4pm; Sunday emergency service only
+
+## Services
+
+- AC Repair & Maintenance: fast diagnostics and repairs, plus tune-ups that prevent breakdowns
+- Air Conditioning Installation: high-efficiency systems sized for the Nevada climate
+- Heating Services: furnace and heat pump repair, maintenance, and installation
+- Indoor Air Quality: air purifiers, filtration, and duct cleaning
+- Commercial HVAC: service and maintenance plans for offices, retail, and light industrial
+
+## Service area
+
+Henderson, Green Valley, Anthem, Las Vegas, Summerlin, Boulder City, North Las Vegas, Enterprise, Spring Valley
+
+## Pages
+
+- [Homepage](https://desert-peak-hvac-rouge.vercel.app/): services, service area, customer reviews, and contact form
+- [Content Studio](https://desert-peak-hvac-rouge.vercel.app/studio): Sanity CMS for editing site content
