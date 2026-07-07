@@ -48,7 +48,7 @@ I built the whole thing in Claude Code, and I ran it in three deliberate passes 
 - **Taste Skill** for design direction. It front-loads design judgment with an anti-slop ruleset and a variance / motion / density dial system. That is exactly what this brief needed: a way to push the AI past its default look before a line of code gets written.
 - **Impeccable** for review and polish. It gives a scored, structured critique and targeted commands like `typeset`, `colorize`, and `layout`, so I could fix specific weaknesses surgically instead of accepting a black-box rewrite.
 - **Playwright** for visual QA. Type-checks and builds pass while a page still looks broken, so I screenshotted every breakpoint. That is how the invisible headline and the blank-section bug actually surfaced.
-- **Humanizer** on the copy, to strip the patterns that read as machine-written.
+- **Humanizer** on the copy I wrote myself (like the placeholder testimonials), to strip machine-written patterns. The copy the client provided stayed faithful to their original wording.
 
 I also made a point of keeping the tooling lean. No custom agents, no MCP plugins, no extra frameworks or state libraries. A static marketing page does not need any of that, and reaching for it would have added complexity I would then have to justify and maintain. Right-sizing the stack is part of the work, not a shortcut around it.
 
@@ -64,7 +64,7 @@ I also made a point of keeping the tooling lean. No custom agents, no MCP plugin
 - It hid whole sections behind a scroll-reveal that set them to `opacity: 0` and relied on JS to bring them back, so anything above-the-fold JS had not reached rendered blank. I made the reveal degrade gracefully so content is visible without JS.
 - The Impeccable critique flagged that the hero eyebrow was red on navy and failed contrast. I fixed the color and reworked the hero headline from three lines to two while I was in there.
 - It defaulted to a light-and-dark theme. I overrode that to a single committed light theme, because the brand identity is a fixed navy/red/white and a dark mode would only dilute it.
-- I kept the client-provided copy where it was already good instead of letting the model rewrite everything, and only edited the marketing microcopy that read as machine-written.
+- I kept the client's provided copy faithful to their original wording rather than letting the model reword it, and only wrote fresh copy where the brief genuinely left a gap (the placeholder testimonials, since the content doc only had a carousel marker).
 
 **Final QA.** I ran `npx impeccable detect src/` as a last deterministic pass over the source. It came back clean, no findings.
 
