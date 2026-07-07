@@ -1,0 +1,34 @@
+---
+import { Icon } from 'astro-icon/components';
+import { telHref } from '../lib/format';
+
+interface Props {
+  phone: string;
+}
+const { phone } = Astro.props;
+---
+
+<section class="bg-brand-red text-brand-white">
+  <div
+    class="mx-auto flex max-w-content flex-col items-start gap-8 px-6 py-16 md:flex-row md:items-center md:justify-between md:py-20"
+  >
+    <div class="max-w-2xl" data-reveal>
+      <h2 class="text-3xl font-bold tracking-tight text-brand-white md:text-4xl">
+        Emergency AC repair when you need it most
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-brand-white/90">
+        A broken AC in a Las Vegas summer cannot wait. Our line is open evenings and
+        weekends, and our trucks are stocked to fix most repairs on the first visit.
+      </p>
+    </div>
+    <a
+      href={telHref(phone)}
+      class="inline-flex shrink-0 items-center gap-2.5 rounded-sm bg-brand-white px-7 py-4 text-lg font-bold text-brand-red transition-transform hover:-translate-y-0.5"
+      data-reveal
+      style="--reveal-delay: 100ms"
+    >
+      <Icon name="ph:phone-fill" class="h-5 w-5" aria-hidden="true" />
+      Call {phone}
+    </a>
+  </div>
+</section>

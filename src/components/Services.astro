@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { serviceIcon } from '../lib/icons';
+import type { Service } from '../lib/sanity';
+import acImg from '../assets/images/service-ac.jpg';
+import heatingImg from '../assets/images/service-heating.jpg';
+
+interface Props {
+  services: Service[];
+}
+const { services } = Astro.props;
+
+const [featured, ...rest] = services;
+---
+
+<section id="services" class="scroll-mt-16 bg-brand-white">
+  <div class="mx-auto max-w-content px-6 py-20 md:py-28">
+    <div class="max-w-2xl" data-reveal>
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">
+        Full-service HVAC for the Las Vegas Valley
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-steel">
+        From emergency repairs to full system replacements, our NATE-certified technicians
+        handle it all, and back every job with a 100% satisfaction guarantee.
+      </p>
+    </div>
+
+    {
+      featured && (
+        <div class="mt-12 grid overflow-hidden rounded-lg md:grid-cols-2" data-reveal>
+          <div class="flex flex-col justify-center gap-4 bg-brand-navy p-8 text-brand-white md:p-10">
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-sm bg-brand-red text-brand-white">
+              <Icon name={serviceIcon(featured.iconName)} class="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h3 class="text-2xl font-bold tracking-tight text-brand-white">{featured.title}</h3>
+            <p class="text-base leading-relaxed text-brand-white/75">{featured.description}</p>
+            <a
+              href="#contact"
+              class="mt-1 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-brand-white transition-opacity hover:opacity-80"
+            >
+              Schedule Service
+              <Icon name="ph:arrow-right" class="h-4 w-4 text-brand-red" aria-hidden="true" />
+            </a>
+          </div>
+          <Image
+            src={acImg}
+            alt="Close-up of a technician repairing an outdoor air conditioning condenser unit"
+            widths={[480, 720]}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            class="order-first h-56 w-full object-cover md:order-last md:h-full"
+          />
+        </div>
+      )
+    }
+
+    <div class="mt-6 grid gap-6 sm:grid-cols-2">
+      {
+        rest.map((service, i) =>
+          service.iconName === 'heating' ? (
+            <article
+              class="group overflow-hidden rounded-md border border-hairline transition-shadow hover:shadow-lift"
+              data-reveal
+              style={`--reveal-delay: ${i * 80}ms`}
+            >
+              <Image
+                src={heatingImg}
+                alt="A residential furnace and heating system being serviced"
+                widths={[400, 640]}
+                sizes="(min-width: 640px) 40vw, 100vw"
+                class="h-40 w-full object-cover"
+              />
+              <div class="p-7">
+                <h3 class="text-xl font-bold tracking-tight">{service.title}</h3>
+                <p class="mt-2 text-base leading-relaxed text-steel">{service.description}</p>
+              </div>
+            </article>
+          ) : (
+            <article
+              class="group rounded-md border border-hairline p-7 transition-shadow hover:shadow-lift"
+              data-reveal
+              style={`--reveal-delay: ${i * 80}ms`}
+            >
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-sm bg-mist text-brand-navy transition-colors group-hover:bg-brand-navy group-hover:text-brand-white">
+                <Icon name={serviceIcon(service.iconName)} class="h-6 w-6" aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 text-xl font-bold tracking-tight">{service.title}</h3>
+              <p class="mt-2 text-base leading-relaxed text-steel">{service.description}</p>
+            </article>
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>

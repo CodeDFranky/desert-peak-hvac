@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { telHref } from '../lib/format';
+import heroImg from '../assets/images/hero-technician.jpg';
+
+interface Props {
+  phone: string;
+}
+const { phone } = Astro.props;
+---
+
+<section id="top" class="relative overflow-hidden bg-brand-navy text-brand-white">
+  <div
+    class="mx-auto grid max-w-content items-center gap-10 px-6 pb-14 pt-24 md:min-h-[88vh] md:grid-cols-[1.15fr_0.85fr] md:gap-14 md:pb-24"
+  >
+    <div>
+      <p
+        class="flex items-center gap-3 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-brand-white/85"
+        data-reveal
+      >
+        <span class="h-px w-8 bg-brand-red" aria-hidden="true"></span>
+        Henderson &amp; the Las Vegas Valley
+      </p>
+      <h1
+        class="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-brand-white text-balance sm:text-5xl"
+        data-reveal
+        style="--reveal-delay: 80ms"
+      >
+        Henderson's trusted heating and cooling experts.
+      </h1>
+      <p
+        class="mt-6 max-w-[46ch] text-lg leading-relaxed text-brand-white/80"
+        data-reveal
+        style="--reveal-delay: 160ms"
+      >
+        Same-day AC repair and honest pricing from licensed local techs, across Henderson
+        and the greater Las Vegas Valley.
+      </p>
+      <div
+        class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+        data-reveal
+        style="--reveal-delay: 240ms"
+      >
+        <a
+          href={telHref(phone)}
+          class="inline-flex items-center justify-center gap-2 rounded-sm bg-brand-red px-6 py-3.5 text-base font-semibold text-brand-white transition-[background-color,transform] hover:bg-red-deep active:translate-y-px"
+        >
+          <Icon name="ph:phone-fill" class="h-5 w-5" aria-hidden="true" />
+          Call {phone}
+        </a>
+        <a
+          href="#contact"
+          class="inline-flex items-center justify-center gap-2 rounded-sm border border-brand-white/40 px-6 py-3.5 text-base font-semibold text-brand-white transition-colors hover:border-brand-white hover:bg-brand-white/10 active:translate-y-px"
+        >
+          Schedule Service
+        </a>
+      </div>
+    </div>
+
+    <div class="relative" data-reveal style="--reveal-delay: 120ms">
+      <Image
+        src={heroImg}
+        alt="Desert Peak technician servicing an air conditioning system at a Henderson home"
+        widths={[480, 720, 960]}
+        sizes="(min-width: 768px) 45vw, 100vw"
+        loading="eager"
+        class="aspect-[4/3] w-full rounded-lg object-cover shadow-lift md:aspect-[4/5]"
+      />
+    </div>
+  </div>
+</section>

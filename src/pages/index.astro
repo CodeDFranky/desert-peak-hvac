@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import ServiceArea from '../components/ServiceArea.astro';
+import EmergencyBanner from '../components/EmergencyBanner.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import {
+  getServices,
+  getTestimonials,
+  getSiteSettings,
+  type Service,
+  type SiteSettings,
+} from '../lib/sanity';
+
+const [services, testimonials, settingsRaw] = await Promise.all([
+  getServices(),
+  getTestimonials(),
+  getSiteSettings(),
+]);
+
+// Fallbacks keep the page whole if Sanity is unreachable. Real content comes from the CMS.
+const fallbackSettings: SiteSettings = {
+  phone: '(555) 555-0182',
+  email: 'service@desertpeakhvac.com',
+  address: '1480 W Sunset Rd, Suite 120, Henderson, NV 89014',
+  hours: 'Monday to Friday, 7am to 7pm\nSaturday, 8am to 4pm\nSunday emergency service only',
+  emergencyLineActive: true,
+};
+
+const fallbackServices: Service[] = [
+  { _id: 'f1', title: 'AC Repair & Maintenance', slug: 'ac-repair-maintenance', iconName: 'ac', order: 1, description: 'Fast diagnostics and repairs to get your cooling back online, plus tune-ups that prevent breakdowns.' },
+  { _id: 'f2', title: 'Air Conditioning Installation', slug: 'air-conditioning-installation', iconName: 'install', order: 2, description: 'High-efficiency systems sized correctly for your home and the Nevada climate, installed clean.' },
+  { _id: 'f3', title: 'Heating Services', slug: 'heating-services', iconName: 'heating', order: 3, description: 'Furnace and heat pump repair, maintenance, and installation for the cooler months.' },
+  { _id: 'f4', title: 'Indoor Air Quality', slug: 'indoor-air-quality', iconName: 'air-quality', order: 4, description: 'Air purifiers, filtration, and duct cleaning to cut the dust and allergens of desert living.' },
+  { _id: 'f5', title: 'Commercial HVAC', slug: 'commercial-hvac', iconName: 'commercial', order: 5, description: 'Reliable service and maintenance plans for offices, retail, and light industrial spaces.' },
+];
+
+const settings = settingsRaw ?? fallbackSettings;
+const svc = services.length ? services : fallbackServices;
+---
+
+<Layout>
+  <Nav phone={settings.phone} />
+  <main>
+    <Hero phone={settings.phone} />
+    <Services services={svc} />
+    <TrustSignals />
+    <ServiceArea phone={settings.phone} />
+    {settings.emergencyLineActive && <EmergencyBanner phone={settings.phone} />}
+    <Testimonials testimonials={testimonials} />
+    <Contact settings={settings} services={svc} />
+  </main>
+  <Footer settings={settings} />
+</Layout>

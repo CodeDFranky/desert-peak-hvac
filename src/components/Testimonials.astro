@@ -1,0 +1,57 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Testimonial } from '../lib/sanity';
+
+interface Props {
+  testimonials: Testimonial[];
+}
+const { testimonials } = Astro.props;
+---
+
+{
+  testimonials.length > 0 && (
+    <section id="reviews" class="scroll-mt-16 bg-brand-white">
+      <div class="mx-auto max-w-content px-6 py-20 md:py-28">
+        <div class="max-w-2xl" data-reveal>
+          <h2 class="text-3xl font-bold tracking-tight md:text-4xl">
+            What Henderson homeowners say
+          </h2>
+          <p class="mt-4 text-lg leading-relaxed text-steel">
+            Real reviews from neighbors across the valley.
+          </p>
+        </div>
+
+        <ul
+          class="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:thin]"
+          tabindex="0"
+          role="region"
+          aria-label="Customer reviews, scroll horizontally"
+          data-reveal
+        >
+          {testimonials.map((t) => (
+            <li class="w-[85%] shrink-0 snap-start sm:w-[26rem]">
+              <figure class="flex h-full flex-col rounded-md border border-hairline p-8">
+                <div class="flex gap-1 text-brand-red" aria-label={`${t.rating} out of 5 stars`}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Icon
+                      name={i < t.rating ? 'ph:star-fill' : 'ph:star'}
+                      class="h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <blockquote class="mt-5 flex-1 text-lg leading-relaxed text-brand-navy">
+                  {t.quote}
+                </blockquote>
+                <figcaption class="mt-6 text-sm font-semibold text-brand-navy">
+                  {t.authorName}
+                  <span class="font-normal text-steel">, {t.suburb}</span>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

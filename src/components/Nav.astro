@@ -1,0 +1,102 @@
+---
+import { Icon } from 'astro-icon/components';
+import { telHref } from '../lib/format';
+
+interface Props {
+  phone: string;
+}
+const { phone } = Astro.props;
+
+const links = [
+  { label: 'Services', href: '#services' },
+  { label: 'Service Area', href: '#service-area' },
+  { label: 'Reviews', href: '#reviews' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-hairline bg-brand-white/95 backdrop-blur-sm">
+  <nav class="mx-auto flex h-16 max-w-content items-center justify-between gap-6 px-6" aria-label="Primary">
+    <a href="#top" class="flex items-center gap-2 text-brand-navy">
+      <Icon name="ph:mountains-fill" class="h-6 w-6 text-brand-red" aria-hidden="true" />
+      <span class="text-lg font-extrabold tracking-tight">Desert Peak</span>
+    </a>
+
+    <div class="hidden items-center gap-8 md:flex">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm font-semibold text-brand-navy transition-colors hover:text-brand-red"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href={telHref(phone)}
+      class="hidden items-center gap-2 rounded-sm bg-brand-red px-4 py-2.5 text-sm font-semibold text-brand-white transition-colors hover:bg-red-deep md:inline-flex"
+    >
+      <Icon name="ph:phone-fill" class="h-4 w-4" aria-hidden="true" />
+      Call {phone}
+    </a>
+
+    <button
+      id="navToggle"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-sm text-brand-navy hover:bg-mist md:hidden"
+      aria-label="Open menu"
+      aria-controls="mobileMenu"
+      aria-expanded="false"
+    >
+      <Icon name="ph:list" class="h-6 w-6" aria-hidden="true" />
+    </button>
+  </nav>
+
+  <div id="mobileMenu" hidden class="border-t border-hairline bg-brand-white px-6 py-4 md:hidden">
+    <div class="flex flex-col gap-1">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            data-menu-link
+            class="rounded-sm px-2 py-3 text-base font-semibold text-brand-navy hover:bg-mist"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a
+        href={telHref(phone)}
+        class="mt-2 inline-flex items-center justify-center gap-2 rounded-sm bg-brand-red px-4 py-3 text-base font-semibold text-brand-white"
+      >
+        <Icon name="ph:phone-fill" class="h-5 w-5" aria-hidden="true" />
+        Call {phone}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('navToggle');
+  const menu = document.getElementById('mobileMenu');
+  if (btn && menu) {
+    const close = () => {
+      menu.setAttribute('hidden', '');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    };
+    btn.addEventListener('click', () => {
+      if (menu.hasAttribute('hidden')) {
+        menu.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('aria-label', 'Close menu');
+      } else {
+        close();
+      }
+    });
+    menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', close));
+  }
+</script>

@@ -1,0 +1,42 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const points = [
+  {
+    icon: 'ph:lightning-fill',
+    title: 'Same-Day Service',
+    body: "Call before noon and we'll do everything we can to reach you the same day.",
+  },
+  {
+    icon: 'ph:hand-coins-fill',
+    title: 'Upfront, Honest Pricing',
+    body: 'You approve the price before any work begins. What we quote is what you pay.',
+  },
+  {
+    icon: 'ph:seal-check-fill',
+    title: 'Licensed & Insured',
+    body: 'Fully licensed Nevada HVAC contractor, NSCB #0089421, with vetted techs.',
+  },
+  {
+    icon: 'ph:house-line-fill',
+    title: 'Locally Owned',
+    body: 'We live here too. Desert Peak has served Henderson since 2009.',
+  },
+];
+---
+
+<section class="bg-brand-navy text-brand-white">
+  <div class="mx-auto max-w-content px-6 py-16 md:py-20">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      {
+        points.map((p, i) => (
+          <div data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <Icon name={p.icon} class="h-8 w-8 text-brand-red" aria-hidden="true" />
+            <h3 class="mt-4 text-lg font-bold tracking-tight text-brand-white">{p.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-brand-white/70">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
