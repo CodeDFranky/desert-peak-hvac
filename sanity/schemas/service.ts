@@ -26,11 +26,26 @@ export const service = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'image',
+      title: 'Photo',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'The photo shown for this service on the homepage.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          description: 'Describe the photo for screen readers and SEO.',
+        }),
+      ],
+    }),
+    defineField({
       name: 'iconName',
       title: 'Icon Name',
       type: 'string',
       description:
-        'Key the frontend maps to an icon (e.g. "ac", "install", "heating", "air-quality", "commercial").',
+        'Fallback icon shown when no photo is set. Key the frontend maps to an icon (e.g. "ac", "install", "heating", "air-quality", "commercial").',
     }),
     defineField({
       name: 'order',

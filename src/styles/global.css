@@ -12,6 +12,11 @@
     @apply bg-brand-white font-sans text-steel antialiased;
   }
 
+  /* Photography is black and white by design; the red accent carries the color. */
+  main :where(img) {
+    filter: grayscale(100%);
+  }
+
   h1,
   h2,
   h3,

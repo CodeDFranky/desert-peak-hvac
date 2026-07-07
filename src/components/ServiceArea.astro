@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import { telHref } from '../lib/format';
+import areaImg from '../assets/images/service-area.jpg';
 
 interface Props {
   phone: string;
@@ -49,5 +51,14 @@ const neighborhoods = [
       </a>{' '}
       and we will let you know right away.
     </p>
+
+    <Image
+      src={areaImg}
+      alt="A quiet residential street in the Las Vegas valley"
+      widths={[720, 1120, 1400]}
+      sizes="(min-width: 1200px) 1120px, 100vw"
+      class="mt-12 h-56 w-full rounded-lg object-cover md:h-72"
+      data-reveal
+    />
   </div>
 </section>

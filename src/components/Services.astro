@@ -1,10 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import { serviceIcon } from '../lib/icons';
-import type { Service } from '../lib/sanity';
-import acImg from '../assets/images/service-ac.jpg';
-import heatingImg from '../assets/images/service-heating.jpg';
+import { urlFor, type Service } from '../lib/sanity';
 
 interface Props {
   services: Service[];
@@ -12,6 +9,7 @@ interface Props {
 const { services } = Astro.props;
 
 const [featured, ...rest] = services;
+const featuredImg = urlFor(featured?.image)?.width(1000).height(1000).fit('crop').auto('format').url();
 ---
 
 <section id="services" class="scroll-mt-16 bg-brand-white">
@@ -43,52 +41,62 @@ const [featured, ...rest] = services;
               <Icon name="ph:arrow-right" class="h-4 w-4 text-brand-red" aria-hidden="true" />
             </a>
           </div>
-          <Image
-            src={acImg}
-            alt="Close-up of a technician repairing an outdoor air conditioning condenser unit"
-            widths={[480, 720]}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            class="order-first h-56 w-full object-cover md:order-last md:h-full"
-          />
+          {featuredImg ? (
+            <img
+              src={featuredImg}
+              alt={featured.image?.alt || featured.title}
+              width="1000"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              class="order-first h-56 w-full object-cover md:order-last md:h-full"
+            />
+          ) : (
+            <div class="order-first flex h-56 items-center justify-center bg-brand-navy/90 md:order-last md:h-full">
+              <Icon name={serviceIcon(featured.iconName)} class="h-16 w-16 text-brand-white/30" aria-hidden="true" />
+            </div>
+          )}
         </div>
       )
     }
 
     <div class="mt-6 grid gap-6 sm:grid-cols-2">
       {
-        rest.map((service, i) =>
-          service.iconName === 'heating' ? (
+        rest.map((service, i) => {
+          const img = urlFor(service.image)?.width(720).height(460).fit('crop').auto('format').url();
+          return (
             <article
               class="group overflow-hidden rounded-md border border-hairline transition-shadow hover:shadow-lift"
               data-reveal
               style={`--reveal-delay: ${i * 80}ms`}
             >
-              <Image
-                src={heatingImg}
-                alt="A residential furnace and heating system being serviced"
-                widths={[400, 640]}
-                sizes="(min-width: 640px) 40vw, 100vw"
-                class="h-40 w-full object-cover"
-              />
+              {img ? (
+                <img
+                  src={img}
+                  alt={service.image?.alt || service.title}
+                  width="720"
+                  height="460"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-44 w-full object-cover"
+                />
+              ) : (
+                <div class="flex h-44 items-center justify-center bg-mist">
+                  <Icon name={serviceIcon(service.iconName)} class="h-12 w-12 text-brand-navy/25" aria-hidden="true" />
+                </div>
+              )}
               <div class="p-7">
-                <h3 class="text-xl font-bold tracking-tight">{service.title}</h3>
-                <p class="mt-2 text-base leading-relaxed text-steel">{service.description}</p>
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-mist text-brand-navy">
+                    <Icon name={serviceIcon(service.iconName)} class="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 class="text-xl font-bold tracking-tight">{service.title}</h3>
+                </div>
+                <p class="mt-3 text-base leading-relaxed text-steel">{service.description}</p>
               </div>
             </article>
-          ) : (
-            <article
-              class="group rounded-md border border-hairline p-7 transition-shadow hover:shadow-lift"
-              data-reveal
-              style={`--reveal-delay: ${i * 80}ms`}
-            >
-              <span class="inline-flex h-11 w-11 items-center justify-center rounded-sm bg-mist text-brand-navy transition-colors group-hover:bg-brand-navy group-hover:text-brand-white">
-                <Icon name={serviceIcon(service.iconName)} class="h-6 w-6" aria-hidden="true" />
-              </span>
-              <h3 class="mt-4 text-xl font-bold tracking-tight">{service.title}</h3>
-              <p class="mt-2 text-base leading-relaxed text-steel">{service.description}</p>
-            </article>
-          ),
-        )
+          );
+        })
       }
     </div>
   </div>

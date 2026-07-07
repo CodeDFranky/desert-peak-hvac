@@ -1,5 +1,5 @@
 /**
- * Seed Sanity with the real content from ./docs/content.md.
+ * Seed Sanity with the real content from ./docs/content.md, including service photos.
  *
  * Prerequisites (Step 4):
  *   1. Create a project at https://sanity.io and put its id in .env as SANITY_PROJECT_ID
@@ -8,8 +8,11 @@
  *
  * Then run:  npm run seed
  *
- * Idempotent: uses createOrReplace with stable ids, so re-running updates in place.
+ * Idempotent for documents (createOrReplace with stable ids). Note: re-running
+ * re-uploads the service images as new assets, so only run this to (re)initialize.
+ * Once you swap photos in the Studio, edit there instead of re-seeding.
  */
+import { readFileSync } from 'node:fs';
 import { createClient } from '@sanity/client';
 import { loadEnv } from 'vite';
 
@@ -39,6 +42,8 @@ const services = [
       'Fast diagnostics and repairs to get your cooling back online, plus tune-ups that prevent breakdowns before they start.',
     iconName: 'ac',
     order: 1,
+    imageFile: 'service-ac.jpg',
+    imageAlt: 'An outdoor air conditioning condenser unit',
   },
   {
     _id: 'service-ac-install',
@@ -49,6 +54,8 @@ const services = [
       'High-efficiency systems sized correctly for your home and the Nevada climate, installed clean and on schedule.',
     iconName: 'install',
     order: 2,
+    imageFile: 'service-install.jpg',
+    imageAlt: 'A newly installed air conditioning system on a building',
   },
   {
     _id: 'service-heating',
@@ -59,6 +66,8 @@ const services = [
       'Furnace and heat pump repair, maintenance, and installation to keep you warm through the cooler months.',
     iconName: 'heating',
     order: 3,
+    imageFile: 'service-heating.jpg',
+    imageAlt: 'A residential heating system',
   },
   {
     _id: 'service-air-quality',
@@ -69,6 +78,8 @@ const services = [
       'Air purifiers, filtration, and duct cleaning to cut down on the dust and allergens that come with desert living.',
     iconName: 'air-quality',
     order: 4,
+    imageFile: 'service-air-quality.jpg',
+    imageAlt: 'An air conditioning unit on the corner of a building',
   },
   {
     _id: 'service-commercial',
@@ -79,6 +90,8 @@ const services = [
       'Reliable service and maintenance plans for offices, retail, and light industrial spaces across the valley.',
     iconName: 'commercial',
     order: 5,
+    imageFile: 'service-commercial.jpg',
+    imageAlt: 'Commercial HVAC units on a building rooftop',
   },
 ];
 
@@ -123,8 +136,21 @@ const siteSettings = {
 };
 
 try {
-  // Clear any earlier service/testimonial docs (e.g. legacy dotted ids that the
-  // API treats as release "versions") so nothing is left orphaned.
+  // Upload each service photo and attach it to the service document.
+  for (const svc of services) {
+    const buf = readFileSync(`src/assets/images/${svc.imageFile}`);
+    const asset = await client.assets.upload('image', buf, { filename: svc.imageFile });
+    svc.image = {
+      _type: 'image',
+      asset: { _type: 'reference', _ref: asset._id },
+      alt: svc.imageAlt,
+    };
+    delete svc.imageFile;
+    delete svc.imageAlt;
+    console.log(`  uploaded photo for ${svc.title}`);
+  }
+
+  // Clear any earlier service/testimonial docs so nothing is left orphaned.
   await client.delete({ query: '*[_type in ["service", "testimonial"]]' });
 
   const tx = client.transaction();
@@ -133,7 +159,7 @@ try {
   }
   await tx.commit();
   console.log(
-    `✓ Seeded ${services.length} services, ${testimonials.length} testimonials, and site settings into ${projectId}/${dataset}.`,
+    `✓ Seeded ${services.length} services (with photos), ${testimonials.length} testimonials, and site settings into ${projectId}/${dataset}.`,
   );
 } catch (err) {
   console.error('✖ Seed failed:', err.message);

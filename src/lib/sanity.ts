@@ -1,4 +1,5 @@
 import { createClient, type SanityClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 const projectId = import.meta.env.SANITY_PROJECT_ID;
 const dataset = import.meta.env.SANITY_DATASET || 'production';
@@ -16,6 +17,18 @@ export const client: SanityClient | null = enabled
     })
   : null;
 
+const imageBuilder = enabled ? imageUrlBuilder({ projectId, dataset }) : null;
+
+export interface SanityImage {
+  asset?: { _ref: string; _type: string };
+  alt?: string;
+}
+
+// Build an optimized Sanity CDN url for an uploaded image, or null if unset.
+export function urlFor(source: SanityImage | null | undefined) {
+  return source && imageBuilder ? imageBuilder.image(source as never) : null;
+}
+
 export interface Service {
   _id: string;
   title: string;
@@ -23,6 +36,7 @@ export interface Service {
   description: string;
   iconName: string;
   order: number;
+  image?: SanityImage | null;
 }
 
 export interface Testimonial {
@@ -54,7 +68,7 @@ async function safeFetch<T>(query: string, fallback: T): Promise<T> {
 export function getServices(): Promise<Service[]> {
   return safeFetch<Service[]>(
     `*[_type == "service"] | order(order asc){
-      _id, title, "slug": slug.current, description, iconName, order
+      _id, title, "slug": slug.current, description, iconName, order, image
     }`,
     [],
   );
